@@ -41,6 +41,7 @@ type SwipeablePanelProps = {
   barStyle?: object;
   allowTouchOutside?: boolean;
   scrollViewProps?: ScrollViewProps;
+  height?:any
 };
 
 type MaybeAnimated<T> = T | Animated.Value;
@@ -208,16 +209,23 @@ class SwipeablePanel extends Component<SwipeablePanelProps, SwipeablePanelState>
       onClose,
       allowTouchOutside,
       closeOnTouchOutside,
+      height,
     } = this.props;
 
     return showComponent ? (
-      <Animated.View
+     
+      <View style={[SwipeablePanelStyles.st,{
+        height: height?height: deviceHeight
+
+      }]}>
+       <Animated.View
         style={[
           SwipeablePanelStyles.background,
           {
             backgroundColor: noBackgroundOpacity ? 'rgba(0,0,0,0)' : 'rgba(0,0,0,0.5)',
             height: allowTouchOutside ? 'auto' : deviceHeight,
             width: deviceWidth,
+            
           },
         ]}
       >
@@ -270,21 +278,33 @@ class SwipeablePanel extends Component<SwipeablePanelProps, SwipeablePanelState>
             )}
           </ScrollView>
         </Animated.View>
-      </Animated.View>
+      </Animated.View> 
+      </View>
     ) : null;
   }
 }
 
 const SwipeablePanelStyles = StyleSheet.create({
+  st:{
+    position: 'absolute',
+    zIndex: 100,
+    bottom: 0,
+    left:0, 
+    right:0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   background: {
     position: 'absolute',
-    zIndex: 1,
+    zIndex: 2,
     bottom: 0,
+
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   panel: {
+    
     position: 'absolute',
     height: PANEL_HEIGHT,
     width: FULL_WIDTH - 50,
@@ -310,6 +330,7 @@ const SwipeablePanelStyles = StyleSheet.create({
   },
   scrollViewContentContainerStyle: {
     width: '100%',
+    zIndex:1555
   },
 });
 
